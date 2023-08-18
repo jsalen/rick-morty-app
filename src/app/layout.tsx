@@ -5,7 +5,7 @@ import { Navbar } from '@/components/Navbar';
 import './globals.css';
 import Link from 'next/link';
 
-const inter = Roboto({ weight: '500', subsets: ['latin'] });
+const roboto = Roboto({ weight: ['300', '400', '700'], subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Rick and Morty API',
@@ -19,7 +19,7 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={roboto.className}>
         <header
           aria-label="Top Banner"
           className="min-h-[60px] fixed left-0 right-0 top-0 backdrop-blur-[5px] backdrop-saturate-[180%] shadow-[inset__0_-1px_0_0_#e4e4e4] bg-[hsla(0,0%,100%,.8)] mx-auto py-2 px-4 md:px-6 lg:px-10 flex justify-between"
@@ -29,7 +29,9 @@ export default function RootLayout({
           </Link>
           <Navbar />
         </header>
-        {children}
+        <main className="min-h-[calc(100vh - 60px)] mt-[60px] px-4">
+          {children}
+        </main>
       </body>
     </html>
   );
