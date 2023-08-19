@@ -3,7 +3,7 @@
 import { type Location } from '@/lib/types';
 import { type ColumnDef } from '@tanstack/react-table';
 
-export interface Character {
+export interface CharacterHeader {
   name: string;
   status: string;
   species: string;
@@ -12,7 +12,7 @@ export interface Character {
   location: Location;
 }
 
-export const columns: Array<ColumnDef<Character>> = [
+export const columns: Array<ColumnDef<CharacterHeader>> = [
   {
     accessorKey: 'name',
     header: 'Name',
