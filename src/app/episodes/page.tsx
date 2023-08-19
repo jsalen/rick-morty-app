@@ -17,7 +17,11 @@ export default async function Page() {
         heading="Rick and Morty Episodes!"
       />
       <section className="max-w-[1140px] mx-auto pb-16">
-        <DataTable columns={columns} data={episodes} />
+        <DataTable
+          columns={columns}
+          data={episodes}
+          fieldsToFilter={['name', 'episode']}
+        />
       </section>
     </>
   );

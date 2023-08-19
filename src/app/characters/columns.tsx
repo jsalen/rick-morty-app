@@ -26,6 +26,10 @@ export const columns: Array<ColumnDef<CharacterHeader>> = [
     header: 'Species',
   },
   {
+    accessorKey: 'type',
+    header: 'Type',
+  },
+  {
     accessorKey: 'gender',
     header: 'Gender',
   },
