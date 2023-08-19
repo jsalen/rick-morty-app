@@ -1,11 +1,11 @@
 import { Banner } from '@/components/Banner';
 import { DataTable } from '@/components/DataTable';
-import { type Characters } from '@/lib/types';
+import { type CharacterResponse } from '@/lib/types';
 import { getData } from '@/lib/utils';
 import { columns } from './columns';
 
 export default async function Page() {
-  const data = await getData<Characters>(
+  const data = await getData<CharacterResponse>(
     `${process.env.API_URL as string}character`,
   );
   const characters = data?.results;

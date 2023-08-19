@@ -1,6 +1,6 @@
-export interface Characters {
+export interface CharacterResponse {
   info: Info;
-  results: Result[];
+  results: Character[];
 }
 
 export interface Info {
@@ -10,7 +10,7 @@ export interface Info {
   prev: null;
 }
 
-export interface Result {
+export interface Character {
   id: number;
   name: string;
   status: string;
@@ -28,4 +28,19 @@ export interface Result {
 export interface Location {
   name: string;
   url: string;
+}
+
+export interface EpisodeResponse {
+  info: Info;
+  results: Episode[];
+}
+
+export interface Episode {
+  id: number;
+  name: string;
+  air_date: string;
+  episode: string;
+  characters: string[];
+  url: string;
+  created: Date;
 }
