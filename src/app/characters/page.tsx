@@ -21,6 +21,7 @@ export default async function Page() {
           columns={columns}
           data={characters}
           fieldsToFilter={['name', 'type', 'species', 'gender']}
+          storage="character"
         />
       </section>
     </>

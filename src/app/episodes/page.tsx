@@ -21,6 +21,7 @@ export default async function Page() {
           columns={columns}
           data={episodes}
           fieldsToFilter={['name', 'episode']}
+          storage="episode"
         />
       </section>
     </>
