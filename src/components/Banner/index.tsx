@@ -7,7 +7,7 @@ export const Banner = ({
 }) => {
   return (
     <section className="pt-16 pb-10 grid place-items-center">
-      <h1 className="max-w-[626px] text-3xl leading-[72px] text-neutral-900 font-bold text-center tracking-[-1px] lg:text-7xl">
+      <h1 className="max-w-[626px] text-3xl leading-8 text-neutral-900 font-bold text-center tracking-[-1px] lg:text-7xl lg:leading-[72px]">
         {heading}
       </h1>
       {body !== undefined && (
