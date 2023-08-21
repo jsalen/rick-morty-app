@@ -98,7 +98,6 @@ export const CharacterForm = ({
     }
 
     if (formAction === 'update') {
-      console.log(values);
       updateItem(character?.id ?? 0, values, 'character');
 
       toast({

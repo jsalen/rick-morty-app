@@ -1,14 +1,14 @@
 'use client';
 
-import { useState } from 'react';
 import {
-  type ColumnDef,
-  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   useReactTable,
+  type ColumnDef,
+  type ColumnFiltersState,
 } from '@tanstack/react-table';
+import { useState } from 'react';
 
 import { Input } from '@/components/ui/input';
 import {
@@ -20,7 +20,17 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useMatchMedia } from '@/hooks/useMatchMedia';
+import { breakpoints } from '@/lib/utils';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '../ui/sheet';
 import { CharacterForm } from './CharacterForm';
+import { buttonVariants } from '../ui/button';
 
 interface IDataTable<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>;
@@ -37,6 +47,7 @@ const DataTable = <TData, TValue>({
 }: IDataTable<TData, TValue>) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const { storedValue } = useLocalStorage<TData>(dataType, data);
+  const isDesktop = useMatchMedia(breakpoints.desktop);
 
   const table = useReactTable({
     data: storedValue,
@@ -51,17 +62,45 @@ const DataTable = <TData, TValue>({
 
   return (
     <>
-      <div className="flex gap-4 mb-3">
-        {fieldsToFilter?.map((field) => (
-          <Input
-            key={field}
-            placeholder={`Filter by ${field}...`}
-            value={(table.getColumn(field)?.getFilterValue() as string) ?? ''}
-            onChange={(event) =>
-              table.getColumn(field)?.setFilterValue(event.target.value)
-            }
-          />
-        ))}
+      <div className={`flex gap-4 mb-3 ${(isDesktop && '') || 'justify-end'}`}>
+        {isDesktop ? (
+          fieldsToFilter?.map((field) => (
+            <Input
+              key={field}
+              placeholder={`Filter by ${field}...`}
+              value={(table.getColumn(field)?.getFilterValue() as string) ?? ''}
+              onChange={(event) =>
+                table.getColumn(field)?.setFilterValue(event.target.value)
+              }
+            />
+          ))
+        ) : (
+          <Sheet>
+            <SheetTrigger className={buttonVariants({ variant: 'secondary' })}>
+              Filters
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle className="text-3xl min-w-max text-left mb-4">
+                  Filters
+                </SheetTitle>
+              </SheetHeader>
+              {fieldsToFilter?.map((field) => (
+                <Input
+                  key={field}
+                  className="mb-4"
+                  placeholder={`Filter by ${field}...`}
+                  value={
+                    (table.getColumn(field)?.getFilterValue() as string) ?? ''
+                  }
+                  onChange={(event) =>
+                    table.getColumn(field)?.setFilterValue(event.target.value)
+                  }
+                />
+              ))}
+            </SheetContent>
+          </Sheet>
+        )}
         {dataType === 'character' && (
           <CharacterForm
             formAction="create"
