@@ -1,5 +1,7 @@
 'use client';
 
+import { EpisodeForm } from '@/components/DataTable/EpisodeForm';
+import { type Episode } from '@/lib/types';
 import { type ColumnDef } from '@tanstack/react-table';
 
 export interface EpisodeHeader {
@@ -20,5 +22,14 @@ export const columns: Array<ColumnDef<EpisodeHeader>> = [
   {
     accessorKey: 'episode',
     header: 'Episode',
+  },
+  {
+    id: 'actions',
+    header: 'Actions',
+    cell: ({ row }) => {
+      const episode = row.original;
+
+      return <EpisodeForm episode={episode as Episode} />;
+    },
   },
 ];

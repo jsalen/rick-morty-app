@@ -20,7 +20,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
-import { CreateCharacter } from './CreateCharacter';
+import { CharacterForm } from './CharacterForm';
 
 interface IDataTable<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>;
@@ -62,7 +62,12 @@ const DataTable = <TData, TValue>({
             }
           />
         ))}
-        {dataType === 'character' && <CreateCharacter />}
+        {dataType === 'character' && (
+          <CharacterForm
+            formAction="create"
+            triggerHeading="Create Character"
+          />
+        )}
       </div>
       <Table>
         <TableHeader>

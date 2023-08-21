@@ -6,8 +6,13 @@ export function useLocalStorage<T>(
   initialValue?: T[],
 ): {
   storedValue: T[];
-  removeItem: (id: number) => void;
   addItem: (newItem: Record<string, string>) => void;
+  removeItem: (id: number) => void;
+  updateItem: (
+    id: number,
+    value: Record<string, string>,
+    type: 'character' | 'episode',
+  ) => void;
 } {
   const [storedValue, setStoredValue] = useState<T[]>(() => {
     const item = window.localStorage.getItem(key);
@@ -39,6 +44,40 @@ export function useLocalStorage<T>(
     window.localStorage.setItem(key, JSON.stringify(updatedItems));
   };
 
+  const updateItem = (
+    id: number,
+    value: Record<string, string>,
+    type: 'character' | 'episode',
+  ) => {
+    const item = window.localStorage.getItem(key);
+
+    if (item !== null) {
+      const oldItem = JSON.parse(item).find(
+        (item: { id: number }) => item.id === id,
+      );
+
+      const updatedItem = {
+        ...oldItem,
+        ...value,
+        ...(type === 'character' && {
+          location: {
+            name: value.location,
+          },
+          origin: {
+            name: value.origin,
+          },
+        }),
+      };
+
+      const updatedItems = JSON.parse(item).map((item: { id: number }) =>
+        item.id === id ? updatedItem : item,
+      );
+
+      setStoredValue(updatedItems);
+      window.localStorage.setItem(key, JSON.stringify(updatedItems));
+    }
+  };
+
   const removeItem = (id: number) => {
     const item = window.localStorage.getItem(key);
 
@@ -55,5 +94,6 @@ export function useLocalStorage<T>(
     storedValue,
     addItem,
     removeItem,
+    updateItem,
   };
 }
