@@ -20,22 +20,23 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { CreateCharacter } from './CreateCharacter';
 
 interface IDataTable<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>;
   data: TData[];
   fieldsToFilter?: string[];
-  storage: 'character' | 'episode';
+  dataType: 'character' | 'episode';
 }
 
-export const DataTable = <TData, TValue>({
+const DataTable = <TData, TValue>({
   columns,
   data,
   fieldsToFilter,
-  storage,
+  dataType,
 }: IDataTable<TData, TValue>) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const { storedValue } = useLocalStorage<TData>(storage, data);
+  const { storedValue } = useLocalStorage<TData>(dataType, data);
 
   const table = useReactTable({
     data: storedValue,
@@ -61,6 +62,7 @@ export const DataTable = <TData, TValue>({
             }
           />
         ))}
+        {dataType === 'character' && <CreateCharacter />}
       </div>
       <Table>
         <TableHeader>
@@ -110,3 +112,5 @@ export const DataTable = <TData, TValue>({
     </>
   );
 };
+
+export default DataTable;

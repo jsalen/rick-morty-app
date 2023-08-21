@@ -1,8 +1,16 @@
 import { Banner } from '@/components/Banner';
-import { DataTable } from '@/components/DataTable';
 import { type EpisodeResponse } from '@/lib/types';
 import { getData } from '@/lib/utils';
+import dynamic from 'next/dynamic';
 import { columns } from './columns';
+const DataTable = dynamic(async () => await import('@/components/DataTable'), {
+  ssr: false,
+  loading: () => (
+    <section className="grid place-items-center h-[220px]">
+      <p>Loading...</p>
+    </section>
+  ),
+});
 
 export default async function Page() {
   const data = await getData<EpisodeResponse>(
@@ -21,7 +29,7 @@ export default async function Page() {
           columns={columns}
           data={episodes}
           fieldsToFilter={['name', 'episode']}
-          storage="episode"
+          dataType="episode"
         />
       </section>
     </>

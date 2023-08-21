@@ -4,6 +4,7 @@ import { AppLogo } from '@/components/Icons/AppLogo';
 import { Navbar } from '@/components/Navbar';
 import './globals.css';
 import Link from 'next/link';
+import { Toaster } from '@/components/ui/toaster';
 
 const roboto = Roboto({ weight: ['300', '400', '700'], subsets: ['latin'] });
 
@@ -32,6 +33,7 @@ export default function RootLayout({
         <main className="min-h-[calc(100vh - 60px)] mt-[60px] px-4">
           {children}
         </main>
+        <Toaster />
       </body>
     </html>
   );

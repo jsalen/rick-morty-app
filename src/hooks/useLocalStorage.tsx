@@ -1,37 +1,59 @@
 import { useState } from 'react';
+import { v4 as uuid } from 'uuid';
 
 export function useLocalStorage<T>(
   key: string,
-  initialValue: T[],
-): { storedValue: T[]; removeItem: (id: string) => void } {
-  const [storedValue, setStoredValue] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const item = window.localStorage.getItem(key);
-      if (item === null) {
-        window.localStorage.setItem(key, JSON.stringify(initialValue));
-        return JSON.stringify(initialValue);
-      }
-
-      return item;
+  initialValue?: T[],
+): {
+  storedValue: T[];
+  removeItem: (id: number) => void;
+  addItem: (newItem: Record<string, string>) => void;
+} {
+  const [storedValue, setStoredValue] = useState<T[]>(() => {
+    const item = window.localStorage.getItem(key);
+    if (item === null) {
+      window.localStorage.setItem(key, JSON.stringify(initialValue));
+      return initialValue;
     }
-    return JSON.stringify(initialValue);
+
+    return JSON.parse(item);
   });
 
-  // remove element from local storage by its ID
-  const removeItem = (id: string) => {
-    const filteredItems = JSON.parse(storedValue).filter(
-      (item: { id: string }) => item.id !== id,
-    );
+  const addItem = (value: Record<string, string>) => {
+    const item = window.localStorage.getItem(key);
+    const newItem = {
+      ...value,
+      id: uuid(),
+      location: {
+        name: value.location,
+      },
+      origin: {
+        name: value.origin,
+      },
+    };
 
-    setStoredValue(JSON.stringify(filteredItems));
+    const updatedItems: T[] =
+      item !== null ? [newItem, ...JSON.parse(item)] : [newItem];
 
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem(key, JSON.stringify(filteredItems));
-    }
+    setStoredValue(updatedItems);
+    window.localStorage.setItem(key, JSON.stringify(updatedItems));
+  };
+
+  const removeItem = (id: number) => {
+    const item = window.localStorage.getItem(key);
+
+    const updatedItems =
+      item !== null
+        ? JSON.parse(item).filter((item: { id: number }) => item.id !== id)
+        : [];
+
+    setStoredValue(updatedItems);
+    window.localStorage.setItem(key, JSON.stringify(updatedItems));
   };
 
   return {
-    storedValue: JSON.parse(storedValue),
+    storedValue,
+    addItem,
     removeItem,
   };
 }
