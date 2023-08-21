@@ -52,12 +52,12 @@ export const Navbar = (): JSX.Element => {
                   Login <IconLogin width="18" height="18" />
                 </NavigationMenuLink>
               </Link>
-              <Link href="/login" passHref>
+              <Link href="/characters" passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                   Characters <IconUsersGroup width="18" height="18" />
                 </NavigationMenuLink>
               </Link>
-              <Link href="/login" passHref>
+              <Link href="/episodes" passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                   Episodes <IconDeviceTv width="18" height="18" />
                 </NavigationMenuLink>
