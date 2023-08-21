@@ -1,9 +1,11 @@
 'use client';
 
-import { type Location } from '@/lib/types';
+import { RowActions } from '@/components/DataTable/RowActions';
+import { type Character, type Location } from '@/lib/types';
 import { type ColumnDef } from '@tanstack/react-table';
 
 export interface CharacterHeader {
+  id: number;
   name: string;
   status: string;
   species: string;
@@ -49,6 +51,12 @@ export const columns: Array<ColumnDef<CharacterHeader>> = [
       const { name } = row.original.origin;
 
       return name;
+    },
+  },
+  {
+    id: 'actions',
+    cell: ({ row }) => {
+      return <RowActions payload={row.original as Character} />;
     },
   },
 ];
