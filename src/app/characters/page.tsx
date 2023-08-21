@@ -26,7 +26,7 @@ export default async function Page() {
       />
       <section className="max-w-[1140px] mx-auto pb-16">
         <DataTable
-          columns={columns}
+          columns={columns as any}
           data={characters}
           fieldsToFilter={['name', 'type', 'species', 'gender']}
           dataType="character"
